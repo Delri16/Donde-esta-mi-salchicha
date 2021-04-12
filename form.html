@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Evaluación final</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body id="body">
+	<h1>Evaluación final</h1>
+  <div class="contenedor">
+    <p>
+        El perro de Matu y Pipi se ha escapado, tenes que encontrarlo. <b>¡Pero cuidado!</b>Hay muchos perros que van a intentar morderte en el camino. Crees que sos capaz de ayudarlos?</p>
+    </div>  
+  <form id="basic-form" action="Juego/Index.html" method="post">
+        <p>
+          <label for="name">Nombre <span>(Mínimo 3 caracteres)</span></label>
+          <input id="name" name="name" minlength="3" type="text" required>
+        </p>
+        <p>
+          <label for="email">Mail <span>(Requerido)</span></label>
+          <input id="email" type="email" name="email" required>
+        </p>
+        <p>
+          <input class="submit" type="submit" id="sumbit" value="JUGAR">
+        </p>
+    </form>
+<script>        
+  $(document).ready(function() {
+  verificar = $("#basic-form").validate({
+    messages : {
+  name: {
+    minlength: "El nombre tiene que tener por lo menos 3 caracteres"
+  },
+  email: {
+    email: "El mail ingresado es inválido"
+  },
+  
+}
+  });
+}); 
+    </script>
+
+    </body>
+</html>
