@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/ico" href="imgs/hector.ico"/>
+    <title>Donde esta mi salchicha</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="./js/j.js"></script>
+</head>
+<body id="body">
+
+            <div id="viewport">
+                <video loop muted id="videofondo">
+                    <source src="./imgs/video juego corto.mp4" type="video/mp4">
+                  </video>
+                <div id="character">
+                    <img src=""; id="characterI">
+                </div>
+                <div id="perros">
+                    <img src="./imgs/perro1.png"; id="perrosI">
+                </div>
+                <div id="puntos">0</div>
+                <div id="ganar">GANASTE</div>
+                <div id="perder">PERDISTE</div>
+                <div id="engranaje">
+                    <img src="imgs/engranaje.png">
+                </div>
+                <div id="ajustes">
+                    <h1>AJUSTES</h1>
+                    <h4>Objetivo <input type="number" id="puntajevictoria" value="50"></h4>
+                    <h4>Personaje</h4>
+                    <ul>
+                        <li id="pipi" ><img src="./imgs/pipi.png"; id="pipiI"> </li>
+                        <li id="matu" ><img src="./imgs/matu.png"; id="matuI"> </li>
+                    </ul>
+                    <input type="button" id="pipiB" value="Pipi">
+                    <input type="button" id="matuB" value="Matu">
+                    <input type="button" id="empezar" value="empezar">
+                    <div id="cruz">
+                        <img src="imgs/cruz.png"; id="cruzI">
+                    </div>
+                    <footer>El objetivo solo se podrá cambiar al principio de la partida.</footer>
+                </div>
+            </div>
+            <div id="formulario">    
+<!--                 <form>
+                    <label for="fname">Ingresá tu nombre</label>
+                    <input type="text" id="fname" name="fname">
+                    <label for="email">Ingresá tu email</label>
+                    <input type="email" id="email" name="email">
+                    <label for="personaje">Elegí tu personaje</label>
+                    <select id="personaje" name="personaje">
+                      <option value="matu">Matu</option>
+                      <option value="pipi">Pipi</option>
+                    </select>
+                    <input type="submit">
+                </form> -->
+            </div>
+            <div id="boton"></div>
+            <div id="audios">
+                <audio id="audiofondo" loop>
+                    <source src="sonidos/fondo.mp3" type="audio/mp3" /></audio>
+                <audio id="audiosalto">
+                    <source src="sonidos/salto.mp3" type="audio/mp3" /></audio>
+                <audio id="audioganar" >
+                    <source src="sonidos/ganar.mp3" type="audio/mp3" /></audio>
+            </div>
+    
+    
+        
+    
+    
+        <script>
+            var y = 350
+            var x = 500
+            var velocidadsubida = 10
+            var velocidadbajada = 50
+            var characterSizeAncho= 100+70
+            var characterSizeAlto= y + 120
+            var perrosSizeAncho= x +95
+            var perrosSizeAlto = 390 - 81;
+            var puntaje = 0;
+            var detener = false
+            var queperro = 1
+            var puntajevictoria = document.getElementById("puntajevictoria").value
+            var podersaltar = true
+            var velocidadEnemigo = 10            
+            var movimientoperro = true
+            var personajeX = 100
+            var jugar = false
+            var pipi = 0
+            var ajustes = false
+
+
+      function moverarriba() {
+         y = y-10
+         velocidadsubida = velocidadsubida +10
+         document.getElementById("character").style.top= y + "px"
+         document.getElementById("audiosalto").play()
+         document.getElementById("audiosalto").volume = 0.3
+         if(y>150){velocidadsubida=10;setTimeout(moverarriba, velocidadsubida);}
+     
+    }
+      function moverabajo() {
+/*         if(y<350){
+        y = y+50;
+       document.getElementById("character").style.top= y + "px"
+       if(y>350){
+           y=350
+       }
+    } */
+      }
+      function gravedad(){
+         if(y<350){y = y+2}
+         velocidadbajada = velocidadbajada - 3
+         document.getElementById("character").style.top= y + "px"
+         if(y==350){velocidadbajada = 50}
+         setTimeout(gravedad, velocidadbajada)
+     }
+     function moverse(){
+
+                movimientoperro=false
+                personajeX =personajeX+ 2
+                document.getElementById("character").style.left= personajeX + "px"
+             if(personajeX < 350){setTimeout(moverse, 20)}
+             console.log(personajeX)
+             if(personajeX > 340 && personajeX < 343)$("#ganar").css("display", "block")
+     }
+     function colision(){
+        if(podersaltar==true){
+            if(x>100 && x<170 && y >perrosSizeAlto ){
+                puntaje++
+                document.getElementById("videofondo").pause()
+                detener = true;
+                $("#perder").css("display", "block")
+                
+            }
+        }
+
+    }
+    function ganar(){
+        if(puntaje==puntajevictoria){
+            if (puntaje==puntajevictoria){queperro=5}
+            podersaltar=false;
+            document.getElementById("videofondo").playbackRate =0.5
+            velocidadEnemigo = 1.5;
+            if(x==349){
+                movimientoperro=false;
+                moverse();
+            }
+            document.getElementById("audioganar").play()
+            document.getElementById("audioganar").volume=0.5
+            document.getElementById("audiofondo").pause() 
+                console.log(x, personajeX, velocidadEnemigoRandom)
+
+
+        }
+
+    }
+     function enemigo(){
+         if(queperro==1){document.getElementById("perrosI").src="imgs/perro1.png"}
+         if(queperro==2){document.getElementById("perrosI").src="imgs/perro2.png"}
+         if(queperro==3){document.getElementById("perrosI").src="imgs/perro3.png"}
+         if(queperro==5){document.getElementById("perrosI").src="imgs/hector.png"}
+            if(detener == false ){ 
+            x = x-velocidadEnemigo
+             document.getElementById("perros").style.left= x + "px"
+             if(movimientoperro){setTimeout(enemigo, 20); }
+             if(ajustes==false){if (x < 0){x = 550; queperro = Math.floor((Math.random() * 3) + 1); velocidadEnemigo = Math.floor((Math.random() * 10) +5 )}}
+             if (x == 550){
+            puntaje++
+            $("#puntos").html(puntaje)
+            
+        }
+        console.log(velocidadEnemigo)
+        colision();
+        ganar();
+}   
+            }
+    function elegirapipi(){
+        document.getElementById("characterI").src="imgs/pipi.png"
+        if(ajustes==false){$("#empezar").css("display", "block")}
+    }
+    function elegiramatu(){
+        document.getElementById("characterI").src="imgs/matu.png"
+        if(ajustes==false){$("#empezar").css("display", "block")}
+    }
+    function agrandarapipi(){
+        $("#pipiI").css("width", "110px")
+    }
+    function agrandaramatu(){
+        $("#matuI").css("width", "110px")
+    }
+    function achicarapipi(){
+        $("#pipiI").css("width", "100px")
+    }
+    function achicaramatu(){
+        $("#matuI").css("width", "100px")
+    }
+    document.getElementById("pipiB").onclick=elegirapipi
+    document.getElementById("matuB").onclick=elegiramatu
+    document.getElementById("matuB").onmouseover=agrandaramatu
+    document.getElementById("pipiB").onmouseover=agrandarapipi
+    document.getElementById("matuB").onmouseleave=achicaramatu
+    document.getElementById("pipiB").onmouseleave=achicarapipi
+    document.getElementById("matuI").onmouseover=agrandaramatu
+    document.getElementById("pipiI").onmouseover=agrandarapipi
+    document.getElementById("matuI").onmouseleave=achicaramatu
+    document.getElementById("pipiI").onmouseleave=achicarapipi
+
+    function oncarga(){
+        //if(document.getElementById("personaje").value="matu"){document.getElementById("character").src="imgs/matu.png"}
+        //if(document.getElementById("personaje").value="pipi"){document.getElementById("character").src="imgs/pipi.png"}
+        $("#ajustes").css("display", "none")
+        document.getElementById("videofondo").play()
+        $("#empezar").css("display", "none")
+        puntajevictoria = $("#puntajevictoria").val()
+        ajustes=false
+        document.getElementById("audiofondo").play()
+        document.getElementById("audiofondo").volume=0.5
+        gravedad();
+        enemigo();
+        elegipersonaje();
+        
+    }
+    function puntajeparaganar(){
+        if( puntajevictoria==isNaN || puntajevictoria==0){
+            $("#viewport").css("display", "none")
+        }
+    }
+      function tecla_presionada (datos) {
+       if(datos.keyCode == "38" && y==350 && podersaltar==true) moverarriba();
+       if(datos.key == "W" && y==350 && podersaltar==true) moverarriba();
+       if(datos.key == "w" && y==350 && podersaltar==true) moverarriba();
+       if(datos.keyCode == 32 && y==350 && podersaltar==true) moverarriba();
+       console.log(puntaje)
+     }
+     function reiniciar(){
+        location.reload();
+     }
+     function mostrarajustes(){
+        $("#ajustes").css("display", "block")
+        ajustes=true
+        document.getElementById("videofondo").pause()
+        $("#empezar").css("display", "none")
+        velocidadEnemigo=0;
+     }
+     function cerrarajustes(){
+        ajustes=false
+        $("#ajustes").css("display", "none")
+        velocidadEnemigo=10
+        document.getElementById("videofondo").play()
+     }
+     //window.onload=oncarga;
+     document.getElementById("empezar").onclick = oncarga;
+     document.getElementById("body").onkeydown = tecla_presionada;
+     document.getElementById("ganar").onclick = reiniciar;
+     document.getElementById("perder").onclick = reiniciar;
+     document.getElementById("engranaje").onclick = mostrarajustes;
+     document.getElementById("cruz").onclick = cerrarajustes;
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

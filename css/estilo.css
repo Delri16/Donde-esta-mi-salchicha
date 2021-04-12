@@ -1,0 +1,38 @@
+body{
+    
+    font-family: Calibri;
+    padding: 10px 20px;
+	background-color: black;
+}
+
+h1 {
+	color: #FFFFFF;
+	background-color: #ffbd33;
+	padding: 10px;
+	border-radius:0 20px;
+}
+
+
+@font-face{
+    font-family: pixelart;
+    src: url(../Juego/fuentes/Minecraft.ttf)
+}
+p{
+	color: white;
+	font-size: 20px;
+	font-family: pixelart;
+}
+#SI{
+	color: lightskyblue;
+	cursor: pointer;
+	text-decoration-line: underline;
+}
+#basic-form{
+	font-size: 15px;
+}
+#sumbit{
+	background-color: black;
+	color: white;
+	font-family: pixelart;
+	font-size: 50px;
+}
